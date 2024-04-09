@@ -1,7 +1,13 @@
 import React, { useState } from 'react'
-import { auth ,db} from "../firebase/firebase";
+import { db,app} from "../firebase/firebase";
 import { useDispatch,useSelector } from 'react-redux'
-import { setData, signup } from '../store/authSlice';
+import { setData, signingoogle, signup } from '../store/authSlice';
+import { GoogleAuthProvider } from 'firebase/auth';
+import { getAuth } from "firebase/auth";
+
+const auth = getAuth(app);
+
+const provider = new GoogleAuthProvider();
 function SignUp() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -10,6 +16,9 @@ function SignUp() {
     const submit=()=>{
         dispatch(signup({auth,email,password}))
         dispatch(setData({username,email,password}))
+    }
+   const signinwithgoogle=()=>{
+        dispatch(signingoogle({auth,provider}))
     }
     return (
         <div>
@@ -30,7 +39,10 @@ function SignUp() {
                 onChange={(e) => setPassword(e.target.value)}
             />
             <button onClick={submit}>
-                submit
+               Sign in
+            </button>
+            <button onClick={signinwithgoogle}>
+               Sign in with google
             </button>
         </div>
     )

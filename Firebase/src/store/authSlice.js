@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword ,GoogleAuthProvider ,signInWithPopup} from "firebase/auth";
 import { getDatabase, ref, set } from 'firebase/database'
-import { db } from "../firebase/firebase";
+import { db,app } from "../firebase/firebase";
 const initialState = {
   status: false,
   userData: null,
@@ -31,8 +31,10 @@ const authSlice = createSlice({
         password: action.payload.password,
       });
     },
-  },
+    signingoogle:(state, action)=>
+        signInWithPopup(action.payload.auth,action.payload.provider)
+    }
 });
 
-export const { login, logout, signup,setData } = authSlice.actions;
+export const { login, logout, signup,setData ,signingoogle} = authSlice.actions;
 export default authSlice.reducer;
